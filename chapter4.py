@@ -5,7 +5,11 @@ from chapter3 import *
 
 
 def det(A: np.ndarray) -> float | sp.Expr:
-    """ Returns the determinant of A. """
+    """ Returns the determinant of A.
+
+    A: (n, n) matrix.
+    Returns: float or `sympy.Expr`.
+    """
     assert A.shape[0] == A.shape[1], 'Matrix must be square.'
     n = A.shape[0]
     if n == 1:
@@ -17,23 +21,26 @@ def det(A: np.ndarray) -> float | sp.Expr:
 
 
 def tr(A: np.ndarray) -> float:
-    """ Returns the trace of A. """
+    """ Returns the trace of A.
+
+    A: (n, n) matrix.
+    Returns: float.
+    """
     assert A.shape[0] == A.shape[1], 'Matrix must be square.'
     return np.diag(A).sum()
 
 
 def characteristic_polynomial(A: np.ndarray) -> np.polynomial.Polynomial:
-    """ Returns the characteristic polynomial of A. """
+    """ Returns the characteristic polynomial of A.
+
+    A: (n, n) matrix.
+    Returns: `np.polynomial.Polynomial`.
+    """
     assert A.shape[0] == A.shape[1], 'Matrix must be square.'
     sympy_poly = cast(sp.Expr, det(A - sp.symbols('lambda') * np.eye(A.shape[0])))
     sympy_poly = cast(sp.Poly, sympy_poly.expand().as_poly())
     coeffs = np.array(sympy_poly.all_coeffs()[::-1], dtype=np.float64)
     return np.polynomial.Polynomial(coeffs)
-
-
-def round_within(x: np.ndarray, tol: float = 1e-7) -> np.ndarray:
-    """ Rounds the elements of x to the nearest integer if they are within tol of an integer. """
-    return np.where(np.abs(x - np.round(x)) < tol, np.round(x), x)
 
 
 def eigen_values(A: np.ndarray, rounding_tol: float | None = 1e-7) -> np.ndarray:
@@ -72,20 +79,16 @@ def eigen_space(A: np.ndarray, eigenvalue: float) -> np.ndarray:
     return kernel_space(A - eigenvalue * np.eye(A.shape[0]))
 
 
-def eigen_decomposition(A: np.ndarray, allow_partial: bool = False, orthonormalize: bool=False) -> Tuple[np.ndarray, np.ndarray]:
-    """ Returns [D, P] from the factorization of A as A = PDP^(-1)
-        where D is a diagonal matrix and P is a matrix whose columns
-        are the eigenbasis of A.
+def eigen_decomposition(A: np.ndarray, allow_partial: bool = False, orthonormalize: bool = False) -> Tuple[np.ndarray, np.ndarray]:
+    """ Returns (D, P) from the factorization of A as A = PDP^(-1).
 
-    Input:
     A: (n, n) matrix with k eigenvectors.
+    allow_partial: bool, if True, the function returns the eigenvalues and eigenvectors of A even if A is defective.
+    orthonormalize: bool, if True, the eigenvectors are orthonormalized using the Gram-Schmidt
 
-    Output:
+    Returns:
     D: (n, k) diagonal matrix of eigenvalues in descending order.
     P: (n, k) matrix whose columns are the eigenvectors of A.
-
-    If allow_partial is True, then the function returns the eigenvalues and eigenvectors of A even if A is defective.
-    If orthonormalize is True, then the eigenvectors are orthonormalized using the Gram-Schmidt process.
     """
     assert A.shape[0] == A.shape[1], 'Matrix must be square.'
     n = A.shape[0]
@@ -103,16 +106,16 @@ def eigen_decomposition(A: np.ndarray, allow_partial: bool = False, orthonormali
 
 
 def singular_value_decomposition(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """ Returns (U, D, V) from the factorization of A as A = UDV^T
-        where U and V are orthogonal matrices and D is a diagonal matrix.
+    """ Returns (U, D, V) from the factorization of A as A = UDV^T where U and V are orthogonal matrices and D is a diagonal matrix.
 
-    Input:
     A: m x n matrix.
 
-    Output (k = min m,n):
+    Returns:
     U: m x k orthogonal matrix.
     D: k x k diagonal matrix.
     V: n x k orthogonal matrix.
+
+    k = min(m, n)
     """
     m, n = A.shape
     if m >= n:
@@ -129,11 +132,10 @@ def singular_value_decomposition(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray,
 # Additional Functions
 def pseudo_invert(A: np.ndarray) -> np.ndarray:
     """ Returns the Moore-Penrose pseudo-inverse of A.
-    Input:
-    A: m x n matrix.
 
-    Output:
-    A^+: n x m matrix.
+    A: (m, n)
+
+    Returns: (n, m)
 
     The Moore-Penrose pseudo-inverse of A is the unique matrix A^+ such that:
     1. A A^+ A = A
@@ -151,44 +153,26 @@ def pseudo_invert(A: np.ndarray) -> np.ndarray:
 
 def solve_linear_systems_with_pseudo_inverse(A: np.ndarray, B: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """ Returns the least squares general solutions to AX = B in the form (particular solutions, basis of null space).
-    Input:
+
     A: m x n matrix.
     B: m x p matrix.
 
-    Output:
-    particular solutions: n x p matrix.
-    basis of null space: n x ker(A) matrix.
+    Returns:
+    particular solutions: (n, p)
+    basis of null space: (n, k) where k is the dimension of the null space of A.
     """
     particular_solutions = pseudo_invert(A) @ B
     null_space_basis = kernel_space(A)
     return particular_solutions, null_space_basis
 
 
-def cholesky_factorization(A: np.ndarray) -> np.ndarray:
-    """ Returns the Cholesky factorization of A, i.e. A = LL^T where L is a lower triangular matrix.
-    Input:
-    A: n x n symmetric positive definite matrix.
-
-    Output:
-    L: n x n lower triangular matrix.
-    """
-    n = A.shape[0]
-    L = np.zeros((n, n), dtype=np.float64)
-    for j in range(n):
-        for i in range(j, n):
-            if i == j:
-                L[i, j] = np.sqrt(A[i, j] - np.sum(L[i, :j] ** 2))
-            else:
-                L[i, j] = (A[i, j] - np.sum(L[i, :j] * L[j, :j])) / L[j, j]
-    return L
-
-
 def givens_rotation_to_zero(A: np.ndarray, target_idx: tuple[int, int], other_dim: int) -> np.ndarray:
     """ Returns the givens rotation matrix that rotates the target_dim to zero in the 2d-plane.
-        A: (m, n) the matrix to be rotated
-        target_idx: the index of the element to be rotated to zero
-        other_dim: the index of the other dimension in the 2d-plane to rotate in
-        Returns: (dims, dims)
+
+    A: (m, n) the matrix to be rotated
+    target_idx: the index of the element to be rotated to zero
+    other_dim: the index of the other dimension in the 2d-plane to rotate in
+    Returns: (dims, dims)
     """
     R = np.eye(A.shape[1], dtype=np.float64)
     v = A[:, target_idx[1]].astype(np.float64)
@@ -204,25 +188,11 @@ def givens_rotation_to_zero(A: np.ndarray, target_idx: tuple[int, int], other_di
     return R
 
 
-def find_similarity_transform_hessenberg(A: np.ndarray) -> np.ndarray:
-    """ Returns the similarity transformation matrix of A in Hessenberg form (upper triangular with one sub-diagonal).
-        A: (n, n) the matrix to be transformed
-        Returns: (n, n)
-    """
-    m, n = A.shape
-    assert m == n, 'A must be square'
-    A = A.astype(np.float64)
-    for j in range(n - 2):
-        for i in range(j + 2, n):
-            R = givens_rotation_to_zero(A, (i, j), j + 1)
-            A = R @ A @ R.T
-    return A
-
-
 def qr_decomposition_gram_schmidt(A: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """ Returns the QR decomposition of A using the Gram-Schmidt process.
-        A: (m, n) the matrix to be decomposed
-        Returns: (m, n), (n, n)
+
+    A: (m, n) the matrix to be decomposed
+    Returns: (m, n), (n, n)
     """
     m, n = A.shape
     assert m == n, 'A must be square'
@@ -240,7 +210,41 @@ def qr_decomposition_gram_schmidt(A: np.ndarray) -> tuple[np.ndarray, np.ndarray
     return Q, R
 
 
-def householder_transform_to_zero(A: np.ndarray, column: int, row: int, B: np.ndarray=None) -> np.ndarray:
+def eigen_values_qr(A: np.ndarray, max_iter: int = 1000, tol: float = 1e-6) -> np.ndarray:
+    """ Returns the eigenvalues of A using the QR algorithm.
+
+    A: (n, n) the matrix to find the eigenvalues of
+    max_iter: the maximum number of iterations
+    tol: the tolerance for convergence
+    Returns: (n)
+    """
+    A = A.astype(np.float64)
+    excess_frob_norm = np.inf
+    for _ in range(max_iter):
+        Q, R = qr_decomposition_gram_schmidt(A)
+        A = R @ Q
+        excess_frob_norm = np.sqrt(np.sum(np.tril(A, k=-1) ** 2))
+        if excess_frob_norm < tol:
+            break
+    if excess_frob_norm > tol:
+        print(f'QR algorithm did not converge after {max_iter} iterations.')
+    v = np.diag(A)
+    v = np.sort(v)[::-1]
+    return v
+
+
+# Helper Functions
+
+
+def round_within(x: np.ndarray, tol: float = 1e-7) -> np.ndarray:
+    """ Rounds the elements of x to the nearest integer if they are within tol of an integer. """
+    return np.where(np.abs(x - np.round(x)) < tol, np.round(x), x)
+
+
+# Additional Functions
+
+
+def householder_transform_to_zero(A: np.ndarray, column: int, row: int, B: np.ndarray = None) -> np.ndarray:
     """ Returns a Householder transformation matrix that zeros out the elements in the given column below the given row.
         If B is given, the transformation is directly applied to it and the resulting matrix is returned. """
     x = A[:, column].astype(np.float64).copy()
@@ -286,26 +290,23 @@ def qr_decomposition_householder(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray]
     return Q, Rs[-1]
 
 
-def eigen_values_qr(A: np.ndarray, max_iter: int = 1000, tol: float = 1e-6) -> np.ndarray:
-    """ Returns the eigenvalues of A using the QR algorithm.
-        A: (n, n) the matrix to find the eigenvalues of
-        max_iter: the maximum number of iterations
-        tol: the tolerance for convergence
-        Returns: (n,)
+def cholesky_factorization(A: np.ndarray) -> np.ndarray:
+    """ Returns the Cholesky factorization of A, i.e. A = LL^T where L is a lower triangular matrix.
+    Input:
+    A: n x n symmetric positive definite matrix.
+
+    Output:
+    L: n x n lower triangular matrix.
     """
-    A = A.astype(np.float64)
-    excess_frob_norm = np.inf
-    for _ in range(max_iter):
-        Q, R = qr_decomposition_gram_schmidt(A)
-        A = R @ Q
-        excess_frob_norm = np.sqrt(np.sum(np.tril(A, k=-1) ** 2))
-        if excess_frob_norm < tol:
-            break
-    if excess_frob_norm > tol:
-        print(f'QR algorithm did not converge after {max_iter} iterations.')
-    v = np.diag(A)
-    v = np.sort(v)[::-1]
-    return v
+    n = A.shape[0]
+    L = np.zeros((n, n), dtype=np.float64)
+    for j in range(n):
+        for i in range(j, n):
+            if i == j:
+                L[i, j] = np.sqrt(A[i, j] - np.sum(L[i, :j] ** 2))
+            else:
+                L[i, j] = (A[i, j] - np.sum(L[i, :j] * L[j, :j])) / L[j, j]
+    return L
 
 
 def orthogonal_iteration(A: np.ndarray, max_iterations: int = 1000) -> Tuple[np.ndarray, np.ndarray]:
@@ -330,3 +331,18 @@ def qr_algorithm(A: np.ndarray, max_iterations: int = 1000) -> Tuple[np.ndarray,
         A = R @ Q
         U = U @ Q
     return np.diag(A), U
+
+
+def find_similarity_transform_hessenberg(A: np.ndarray) -> np.ndarray:
+    """ Returns the similarity transformation matrix of A in Hessenberg form (upper triangular with one sub-diagonal).
+        A: (n, n) the matrix to be transformed
+        Returns: (n, n)
+    """
+    m, n = A.shape
+    assert m == n, 'A must be square'
+    A = A.astype(np.float64)
+    for j in range(n - 2):
+        for i in range(j + 2, n):
+            R = givens_rotation_to_zero(A, (i, j), j + 1)
+            A = R @ A @ R.T
+    return A
