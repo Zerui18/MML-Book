@@ -1,0 +1,58 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath}  % for better math typesetting
+\usepackage{amssymb}  % for symbols
+\usepackage{geometry} % for adjusting page margins
+\usepackage{mathtools} % for := typesetting
+\usepackage[utf8]{inputenc} % for utf8 characterset
+\usepackage{titlesec} % for title customization
+
+\geometry{margin=1in}
+
+% remove indents
+\setlength{\parindent}{0pt}
+
+% toc with links
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+    allcolors=black
+}
+
+% title customization
+\titleformat{\section}
+	{\centering\LARGE\bfseries}{}{}{}
+
+\titleformat{\subsection}
+	{\Large\bfseries}{}{}{\clearpage}
+
+\titleformat{\subsubsection}
+	{\large\bfseries}{}{}
+	{\vspace{0.5em}}
+	[\vspace{0.5em} \titlerule \vspace{0.2em}]
+
+% Custom commands for sectioning
+\newcommand{\chapter}[1]{\section*{#1} \addcontentsline{toc}{section}{#1}}
+\newcommand{\question}[1]{\subsection*{Question #1.}  \addcontentsline{toc}{subsection}{#1}}
+\newcommand{\subquestion}[1]{\subsubsection*{Subquestion #1.}}
+\newcommand{\insight}{\vspace{1em} \textbf{Insight} \vspace{0.5em}\\}
+\newcommand{\solution}{\vspace{1em} \textbf{Solution} \vspace{0.5em}\\}
+
+\input{notations.tex}
+
+\begin{document}
+
+\title{MML Book Solutions}
+\author{Zerui Chen}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+% Import chapters
+\input{chapter2.tex}
+\newpage
+\input{chapter3.tex}
+
+\end{document}

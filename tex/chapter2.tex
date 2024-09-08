@@ -1,0 +1,246 @@
+\chapter{Chapter 2: Linear Algebra}
+
+\question{2.1}
+
+We consider $(\mathbb R\minusset{-1}, \star)$, where
+\[ a \star b \defeq ab + a + b \quad a,b\in\mathbb R \minusset{-1} \]
+
+\subquestion{a}
+Show that $(\mathbb R\minusset{-1}, \star)$ is an Abelian group. 
+
+\insight
+Properties of an Abelian group: commutativity, closure, associativity, existence of a neutral element, and existence of an inverse for every element. I show commutativity first so I can use it in later segments of the proof.
+
+\solution
+Commutative:
+\begin{align*}
+	a \star b &= ab + a + b \\
+	&= ba + b + a \\
+	&= b \star a \qedl
+\end{align*}
+
+Closure:
+\begin{align*}
+	Assuming\quad a \star b &= -1 \\
+	ab + a + b &= -1 \\
+	(a+1)(b+1) &= 0 \\
+	a=-1 &\text{ OR } b=-1 \tag*{$\bot$} \\
+	a \star b &\in \mathbb R\minusset{-1} \qedl
+\end{align*}
+
+Associativity:
+\begin{align*}
+	(a \star b) \star c &= (ab + a + b)c + (ab + a + b) + c \\
+	&= a(bc + b + c) + a + (bc + b + c) \\
+	&= a(b \star c) + a + (b \star c) \\
+	&= a \star (b \star c) \qedl
+\end{align*}
+
+Existence of $e$:
+\begin{align*}
+	a \star e &= a \\
+	ae + a + e &= a \\
+	e(a + 1) &= 0 \\
+	e &= 0 \quad (a \neq -1)
+\end{align*}
+\[
+\exists e: \forall a \in R\minusset{-1}: a \star e = a = e \star a \quad (commutative) \qedl
+\]
+
+Existence of $a^{-1}$:
+\begin{align*}
+	a \star a^{-1} &= 0 \\
+	aa^{-1} + a + a^{-1} &= 0 \\
+	a^{-1}(a+1) &= -a \\
+	a^{-1} &= \frac {-a} {a + 1} \quad (a \neq -1)
+\end{align*}
+\[
+\forall a \in R\minusset{-1}: \exists a^{-1} \in R\minusset{-1}: a \star a^{-1} = e = a^{-1} \star a \quad (commutative) \qedl
+\]
+
+Thus $(\mathbb R\minusset{-1}, \star)$ is an Albelian group. \qed
+
+\subquestion{b}
+Solve
+\[ 3 \star x \star x = 15 \]
+
+\solution
+\begin{align*}
+	3 \star x \star x &= 15 \\
+	3 \star (x^2 + 2x) &= 15 \\
+	3(x^2 + 2x) + 3 + (x^2 + 2x) &= 15 \\
+	4x^2 + 8x - 12 &= 0 \\
+	x^2 + 2x - 3 &= 0 \\
+	(x + 3)(x - 1) &= 0 \\
+	x &\in \{1, -3\}
+\end{align*}
+
+\question{2.2}
+Let $n$ be in $\mathbb Z \minusset{0}$. Let $k, x$ be in $\mathbb Z$. For all $\overline a, \overline b \in \mathbb Z_n$, we define
+\[
+\overline a \oplus \overline b \defeq \overline {a + b}
+\]
+
+\subquestion{a}
+Show that $(\mathbb Z_n, \oplus)$ is a group. Is it Albelian?
+
+\insight
+Properties of an Abelian group: commutativity, closure, associativity, existence of a neutral element, and existence of an inverse for every element. I test commutativity first so I can use it in later segments of the proof if it is indeed Albelian.
+
+\solution
+Commutative:
+\begin{align*}
+	\overline a \oplus \overline b &= \overline {a + b} \\
+	&= \overline {b + a} \\
+	&= \overline b \oplus \overline a \qedl
+\end{align*}
+
+Closure:
+\begin{align*}
+	\overline a \oplus \overline b &= \overline {a + b} \\
+	&= \{x \in \mathbb Z \mid \exists c \in \mathbb Z: x-(a+b)=nc \} \\
+	&= \{x \in \mathbb Z \mid \exists c \in \mathbb Z: x-(kn+r)=nc \} \tag{$k, r \in \mathbb Z$, $0 \leq r < n$} \\
+	&= \{x \in \mathbb Z \mid \exists c' \in \mathbb Z: x-r=nc' \} \tag{$c'=c+k$} \\
+	&= \overline r \\
+	&\in \mathbb Z_n \qedl
+\end{align*}
+
+Associativity:
+\begin{align*}
+	(\overline a \oplus \overline b) \oplus \overline c &= \overline {a + b} \oplus \overline c \\
+	&= \overline { a + b + c } \\
+	&= \overline a \oplus \overline { b + c } \\
+	&= \overline a \oplus (\overline b \oplus \overline c) \qedl
+\end{align*}
+
+Existence of $\overline e$:
+\begin{align*}
+	\overline a \oplus \overline e &= \overline a \\
+	\overline { a + e } &= \overline a \\
+	\overline e &= \overline 0 \qedl
+\end{align*}
+
+Existence of ${\overline a}^{-1}$: letting ${\overline a}^{-1} = \overline b$
+\begin{align*}
+	\overline a \oplus {\overline a}^{-1} &= \overline 0 \\
+	\overline {a + b} &= \overline 0 \\
+	b &\in \{ kn-a | k \in \mathbb Z \} \\
+	\overline b &= \overline{ n-a } \tag{$0 \leq b < n$} \\
+	{\overline a}^{-1} &= \overline { n-a } \qedl
+\end{align*}
+
+Thus $(\mathbb R\minusset{-1}, \star)$ is an Albelian group. \qed
+
+\subquestion{b}
+We now define
+\[ \overline a \otimes \overline b = \overline { a \times b } \]
+Let $n=5$. Draw the times table of the elements of $\mathbb Z_5 \minusset{\overline 0}$ under $\otimes$.
+
+\[
+\begin{array}{|c|cccc|}
+	\hline
+	\otimes & \overline{1} & \overline{2} & \overline{3} & \overline{4} \\
+	\hline
+	\overline1 & \overline{1} & \overline{2} & \overline{3} & \overline{4} \\
+	\overline2 & \overline{2} & \overline{4} & \overline{1} & \overline{3} \\
+	\overline3 & \overline{3} & \overline{1} & \overline{4} & \overline{2} \\
+	\overline4 & \overline{4} & \overline{3} & \overline{2} & \overline{1} \\
+	\hline
+\end{array}
+\]
+
+Observing the table, $\mathbb Z_5 \minusset{\overline 0}$ is closed under $\otimes$.
+The neutral element is $\overline 1$.
+The inverses are as follows:
+
+\[
+\begin{array}{|c|cccc|}
+	\hline
+	\overline a & \overline 1 & \overline 2 & \overline 3 & \overline 4 \\
+	\hline
+	{\overline a}^{-1} & \overline 1 & \overline 3 & \overline 2 & \overline 4 \\
+	\hline
+\end{array}
+\]
+
+Associativity:
+\begin{align*}
+	(\overline a \otimes \overline b) \otimes \overline c &= \overline {a \times b} \oplus \overline c \\
+	&= \overline { a \times b \times c } \\
+	&= \overline a \otimes \overline { b \times c } \\
+	&= \overline a \otimes (\overline b \otimes \overline c) \qedl
+\end{align*}
+
+Commmutative:
+\begin{align*}
+	\overline a \otimes \overline b &= \overline { a \times b } \\
+	&= \overline { b \times a } \\
+	&= \overline b \otimes \overline a \qedl
+\end{align*}
+
+Since $(\mathbb Z_5 \minusset{\overline 0}, \otimes)$ is closed, associative, possesses a neutral element, posesses an inverse element for every element, and is commutative, therefore it is an Albelian group. \qed
+
+\subquestion{c}
+Show that $(\mathbb Z_8 \minusset{\overline 0}, \otimes)$ is not a group.
+
+\insight
+From the previous part, we observe that the only properties that may not always hold are closure and existence of the inverse element for every member. Thus, we need to find a counterexample for either of them.
+
+\solution
+There is no inverse for $\overline 2$, thus $(\mathbb Z_8 \minusset{\overline 0}, \otimes)$ is not a group.
+
+\subquestion{d}
+Show that $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group IFF $n \in \mathbb N \minusset{0}$ is prime.
+
+\insight
+To prove IFF, we need to prove the statement both ways. Same as the previous subquestion, we are only concerned with the properties of closure and existence of inverse element for every member, as the proofs of others are invariant to the choice of $n$.
+
+\solution
+\textit{Lemma 1.} Given $n \in \mathbb N \minusset{0}$ is prime, then $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group.
+
+Existence of Inverse Element:
+\begin{align*}
+	\forall m \in \mathbb N, 1 \leq m < n&: gcd(m, n) = 1 \tag{def. of prime} \\
+	\forall m \in \mathbb N, 1 \leq m < n&: \exists u, v \in \mathbb Z: mu + nv = 1 \tag {Bézout theorem} \\
+	\therefore \forall m \in \mathbb N, 1 \leq m < n&: \exists u \in \mathbb Z: mu = 1\ \text{(mod$n$)} \tag{1}
+\end{align*}
+therefore
+\begin{align*}
+	 \exists u \in \mathbb Z: \overline m \otimes \overline u &= \overline { mu } \\
+	&= \{ x \in \mathbb Z \mid x - mu = 0\ \text{(mod$n$)} \} \\
+	&= \{ x \in \mathbb Z \mid x - 1 = 0\ \text{(mod$n$)} \} \tag{using 1} \\
+	&= \overline 1 \qedl
+\end{align*}
+
+
+\textit{Lemma 2.} Given $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group, then $n \in \mathbb N \minusset{0}$ is prime.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+\newcommand{\mat}[1]{\boldsymbol #1} % matrix
+
+\newcommand{\set}[1]{\mathcal #1} % sets
+
+\newcommand{\field}[2]{\mathbb{#1}^#2} % R^{2x2}
+
+\newcommand{\tensor}[1]{\boldsymbol #1} % tensor
+
+\newcommand{\T}[1]{{\mat #1}^\top} % transpose matrix
+
+\newcommand{\dotprod}[2]{{\vec #1} ^\top \vec #2} % dot product x^T y
+
+\newcommand{\inv}[1]{{\mat #1}^{-1}} % invert matrix
+
+\newcommand{\minusset}[1]{\setminus\left\{#1\right\}}
+
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}
+                     =} % := definition
+                     
+\newcommand{\qed}{
+	\ifmmode % math (assume in align env)
+		\tag*{$\blacksquare$}
+	\else % paragraph
+		\hfill $\blacksquare$
+	\fi
+} % qed
+
+\newcommand{\qedl}{
+	\ifmmode % math (assume in align env)
+		\tag*{$\square$}
+	\else % paragraph
+		\hfill $\square$
+	\fi
+} % qed for lemmas
