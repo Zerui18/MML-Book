@@ -2,7 +2,7 @@
 
 \newcommand{\set}[1]{\mathcal #1} % sets
 
-\newcommand{\field}[2]{\mathbb{#1}^#2} % R^{2x2}
+\newcommand{\vecsp}[2]{\mathbb{#1}^#2} % R^{2x2}
 
 \newcommand{\tensor}[1]{\boldsymbol #1} % tensor
 
@@ -17,12 +17,25 @@
 \newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
                      \hbox{\scriptsize.}\hbox{\scriptsize.}}}
                      =} % := definition
+
+\newcommand{\Der}[2]{\frac{\diff #1}{\diff #2}} % dy/dx
+\newcommand{\der}[1]{\Der{}{#1}} % d/dx
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}} % d{x,y, ...}
                      
 \newcommand{\qed}{
 	\ifmmode % math (assume in align env)
 		\tag*{$\blacksquare$}
 	\else % paragraph
 		\hfill $\blacksquare$
+	\fi
+} % qed
+
+\newcommand{\nqed}{
+	\ifmmode % math (assume in align env)
+		\tag*{$\bot$}
+	\else % paragraph
+		\hfill $\bot$
 	\fi
 } % qed
 
@@ -33,3 +46,28 @@
 		\hfill $\square$
 	\fi
 } % qed for lemmas
+
+\newcommand{\rowvec}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\id}{\text{id}}
+
+\newcommand{\im}{\text{Im}}
+
+\newcommand{\setlr}[1]{\left\{#1\right\}}
+\newcommand{\parenlr}[1]{\left(#1\right)}
+\newcommand{\sqparenlr}[1]{\left[#1\right]}
+
+\newcommand{\rk}{\text{rk}}
+
+\newcommand*{\innerprod}[2]{\langle #1, #2 \rangle}
+
+\newcommand*{\vecx}{\vec x}
+\newcommand*{\vecy}{\vec y}
+\newcommand*{\vecz}{\vec z}
+\newcommand*{\veczero}{\vec 0}
+
+\newcommand*{\mata}{\mat A}
+\newcommand*{\matb}{\mat B}
+\newcommand*{\matc}{\mat C}
+
+\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}

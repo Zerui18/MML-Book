@@ -195,43 +195,659 @@ Show that $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group IFF $n \in 
 \insight
 To prove IFF, we need to prove the statement both ways. Same as the previous subquestion, we are only concerned with the properties of closure and existence of inverse element for every member, as the proofs of others are invariant to the choice of $n$.
 
+It turns out that to fully prove the existence of the inverse element, it needs part of the proof towards closure, thus I've placed that first.
+
 \solution
-\textit{Lemma 1.} Given $n \in \mathbb N \minusset{0}$ is prime, then $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group.
+Let $\set A_n = \{ x \in \mathbb N, 1 \leq x < n \}$. 
+
+\paragraph{Lemma 1.} Given $n \in \mathbb N \minusset{0}$ is prime, then $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group.
+
+\paragraph{Sublemma 1.a} We show that $\forall m \in \mathbb Z, m \neq 0\ \text{(mod $n$)}: \overline m \in (\mathbb Z_n \minusset{\overline 0})$.
+\begin{align*}
+	\forall m \in \mathbb Z, m \neq 0\ \text{(mod $n$)}: \overline m &\defeq \{x \in \mathbb Z \mid x-m=0\ \text{(mod $n$)} \} \\
+	&= \{x \in \mathbb Z \mid x-r=0\ \text{(mod $n$)} \} \tag{$r \in \set A_n$} \\
+	&= \overline r \\
+	&\in \mathbb Z_n \minusset{0} \qedl
+\end{align*}
 
 Existence of Inverse Element:
+\begin{alignat*}{2}
+	\forall m \in \set A_n&: gcd(m, n) = 1 \tag{def. of prime} &&\\
+	\forall m \in \set A_n&: \exists u, v \in \mathbb Z: mu + nv = 1 \tag {Bézout theorem} &&\\
+	\forall m \in \set A_n&: \exists u \in \mathbb Z: mu = 1\ \text{(mod $n$)} \tag{1} &&\\
+	\therefore \forall m \in \set A_n&: \exists \overline u \in \mathbb Z_n: \overline m \otimes \overline u &&= \overline { mu } \\
+	& &&= \{ x \in \mathbb Z \mid x - mu = 0\ \text{(mod $n$)} \} \\
+	& &&= \{ x \in \mathbb Z \mid x - 1 = 0\ \text{(mod $n$)} \} \tag{using 1} \\
+	& &&= \overline 1 \qedl
+\end{alignat*}
+
+Furthermore, the inverse element $\overline u$ is a member of the set, evident as (1) shows that $u \neq 0$ (mod $n$), allowing us to apply sublemma 1.a.
+
+\
+
+Closure:
+
+\
+
+For $x, y \in \set A_n$, $x \neq 0$ (mod $n$), $y \neq 0$ (mod $n$).
 \begin{align*}
-	\forall m \in \mathbb N, 1 \leq m < n&: gcd(m, n) = 1 \tag{def. of prime} \\
-	\forall m \in \mathbb N, 1 \leq m < n&: \exists u, v \in \mathbb Z: mu + nv = 1 \tag {Bézout theorem} \\
-	\therefore \forall m \in \mathbb N, 1 \leq m < n&: \exists u \in \mathbb Z: mu = 1\ \text{(mod$n$)} \tag{1}
+	Let\ xy\ mod\ n&= (an + b)(cn + d)\ mod\ n \\
+	&= acn^2 + adn + bcn + bd\ mod\ n \\
+	&= bd\ mod\ n \\
+	&\neq 0 \tag{2}
 \end{align*}
-therefore
+
+\
+
+Therefore
 \begin{align*}
-	 \exists u \in \mathbb Z: \overline m \otimes \overline u &= \overline { mu } \\
-	&= \{ x \in \mathbb Z \mid x - mu = 0\ \text{(mod$n$)} \} \\
-	&= \{ x \in \mathbb Z \mid x - 1 = 0\ \text{(mod$n$)} \} \tag{using 1} \\
-	&= \overline 1 \qedl
+	\forall \overline x, \overline y \in \mathbb Z_n \minusset{0}: \ &xy \neq 0\ \text{mod ($n$)} \tag{using 2} \\
+	& \overline {xy} \in \mathbb Z_n \minusset{0} \tag*{(using sublemma 1.a) \qedl} \\
 \end{align*}
 
+\paragraph {End of Lemma 1.} \qedl
 
-\textit{Lemma 2.} Given $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group, then $n \in \mathbb N \minusset{0}$ is prime.
+\paragraph{Lemma 2.} Given $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group, then $n \in \mathbb N \minusset{0}$ is prime.
 
+\
 
+By the property of the inverse element:
+\begin{align*}
+	\forall m \in \set A_n: \exists u \in \set A_n: \overline m \otimes \overline u &= \overline 1 \\
+	mu &= 1\ \text{(mod $n$)} \\
+	mu + nv &= 1\ \tag{$v \in \mathbb Z$}
+\end{align*}
 
+Therefore
+\begin{align*}
+	\forall m \in \set A_n&: \exists u, v \in \mathbb Z: mu + nv = 1 \\
+	\forall m \in \set A_n&: gcd(m, n) = 1 \tag* {(Bézout theorem) \qedl}
+\end{align*}
 
+\paragraph{End of Lemma 2.} \qedl
 
+\conclusion Given both lemma 1 and 2, we conclude that $(\mathbb Z_n \minusset{\overline 0}, \otimes)$ is a group IFF $n \in \mathbb N \minusset{0}$ is prime. \qed
 
+\question{2.3} Is $(\set G, \cdot)$ a group? Is it albelian?
 
+\insight
+Properties of a group: closure, associativity, existence of a neutral element, and existence of an inverse for every element. Albelian = commutative.
 
+\solution
+Let $\mat A, \mat B \in \set G$,
+\begin{align*}
+	\mat A \defeq
+	\begin{bmatrix}
+		1 & x & z \\
+		0 & 1 & y \\
+		0 & 0 & 1
+	\end{bmatrix},\
+	\mat B \defeq
+	\begin{bmatrix}
+		1 & j & l \\
+		0 & 1 & k \\
+		0 & 0 & 1
+	\end{bmatrix}
+\end{align*}
 
+Closure:
+\begin{align*}
+	\mat A \cdot \mat B &=
+	\begin{bmatrix}
+		1 & j+x & l+kx+z \\
+		0 & 1 & ky \\
+		0 & 0 & 1
+	\end{bmatrix} \\
+	&\in \set G \qedl
+\end{align*}
 
+Associativity: By def. of matrix multiplication.
 
+Neutral Element: $\mathbb I_3$.
 
+Inverse Element: Members of $\set G$ are full rank and thus invertible.
 
+\
 
+Not Commutative:
+\begin{align*}
+	(\mat A \cdot \mat B)_{3,3} &= l + kx + z \\
+	&\neq (\mat B \cdot A)_{3,3} = z + yj + l \qedl
+\end{align*}
 
+\conclusion $(\set G, \cdot)$ is a group but is not albelian. \qed
 
+\question{2.4-2.8} See Jupyter Notebook
 
+\question{2.9} Which of the following sets are subspaces of $\vecsp R3$?
 
+\insight
+Definition of vector space:
+\begin{enumerate}
+	\item $(\set V, +)$ is an albelian group.
+	\item $\cdot$ is distributive over + in both the left and right arguments.
+	\item $\cdot$ is associative.
+	\item $\cdot$ has a neutral element in $\set V$.
+\end{enumerate}
+
+Vector addition + is commutative and associative by definition.
+Vector-scalar multiplication is distributive and associative by definition.
+These properties do not need proof.
+
+\subquestion{a}
+
+\paragraph{Is $(\set A, +)$ an albelian group?}
+
+\
+
+Closure:
+\begin{align*}
+	\forall x, y \in \set A: x + y &=
+	\begin{bmatrix}
+		\lambda_1 + \lambda_2 \\
+		\lambda_1 + \lambda_2 + \mu_1^3 + \mu_2^3 \\
+		\lambda_1 + \lambda_2 - \mu_1^3 - \mu_2^3
+	\end{bmatrix} \\
+	&=
+	\begin{bmatrix}
+		\lambda \\
+		\lambda + \mu^3 \\
+		\lambda - \mu^3
+	\end{bmatrix} \tag {$\lambda = \lambda_1 + \lambda_2, \mu = \left( \mu_1^3+\mu_2^3 \right)^\frac13$} \\
+	&\in \set A \qedl
+\end{align*}
+
+Neutral Element: $\begin{bmatrix}
+	0 \\ 0 \\ 0
+\end{bmatrix} \in \set A$ \qedl
+
+Inverse Element: $\begin{bmatrix}
+	-\lambda \\ -\lambda+(-\mu)^3 \\ -\lambda-(-\mu)^3
+\end{bmatrix} \in \set A$ \qedl
+
+\paragraph{Does $(\set V, \cdot)$ have a neutral element?}
+
+\
+
+\[
+\begin{bmatrix}
+	1 \\ 1 \\ 1
+\end{bmatrix} \in \set A
+\] \qedl
+
+\conclusion $\set A$ is a subspace of $\vecsp R3$. \qed
+
+\subquestion{b}
+
+\paragraph{Is $(\set B, +)$ an albelian group?}
+
+\
+
+Closure:
+\begin{align*}
+	\forall x, y \in \set B: x + y &=
+	\begin{bmatrix}
+		\lambda_1^2 + \lambda_2^2 \\
+		-(\lambda_1^2 + \lambda_2^2) \\
+		0
+	\end{bmatrix} \\
+	&=
+	\begin{bmatrix}
+		\lambda^2 \\
+		-\lambda^2 \\
+		0
+	\end{bmatrix} \tag {$\lambda = \left( \lambda_1^2+\lambda_2^2 \right)^\frac12$} \\
+	&\in \set B \qedl
+\end{align*}
+
+Neutral Element: $\begin{bmatrix}
+	0 \\ 0 \\ 0
+\end{bmatrix} \in \set A$ \qedl
+
+Inverse Element: There's no inverse element for $\lambda \neq 0$.
+
+\conclusion $\set B$ is not a subspace of $\vecsp R3$. \qed
+
+\subquestion{c}
+
+\paragraph{Is $(\set C, +)$ an albelian group?}
+
+\
+
+Closure:
+\begin{align*}
+	\forall x, y \in \set C: x + y &=
+	\begin{bmatrix}
+		\xi_1 \\ \xi_2 \\ \xi_3
+	\end{bmatrix} \tag{$\xi_1+\xi_2+\xi_3 = 2r$} \\
+	&\notin \set C
+\end{align*}
+
+\conclusion $\set C$ is not a subspace of $\vecsp R3$. \qed
+
+\subquestion{d}
+
+\paragraph{ Closure of $(\set D, \cdot)$ }
+\begin{align*}
+	\forall x \in \set D, \lambda \in \mathbb R \setminus \mathbb Z: \lambda \cdot x \notin \set D
+\end{align*}
+
+\conclusion $\set D$ is not a subspace of $\vecsp R3$. \qed
+
+\question{2.10-2.14}
+See Jupyter Notebook
+
+\question{15}
+Let $\set F = \{(x, y, z) \in \vecsp R3 \mid x+y-z=0\}$ and $\set G = \{(a-b, a+b, a-3b) \in \vecsp R3 \mid a, b \in \mathbb R \}$
+
+\subquestion{a}
+Show that $\set F$ and $\set G$ are subspaces of $\vecsp R3$.
+
+\insight
+Definition of vector space:
+\begin{enumerate}
+	\item $(\set V, +)$ is an albelian group.
+	\item $\cdot$ is distributive over + in both the left and right arguments.
+	\item $\cdot$ is associative.
+	\item $\cdot$ has a neutral element in $\set V$.
+\end{enumerate}
+
+Vector addition + is commutative and associative by definition.
+Vector-scalar multiplication is distributive and associative by definition, it also has a neutral element of $1$.
+These properties do not need proof.
+
+\solution
+
+Let $m, n \in \set F$.
+
+\
+
+Closure $(+)$:
+\begin{align*}
+	m + n &= (x_1+x_2, y_1+y_2, z_1+z_2) \\
+	&= (x, y, z) \tag{$x=x_1+x_2, y=y_1+y_2, z=z_1+z_2$} \\
+	&\in \set F \qedl
+\end{align*}
+
+Neutral Element $(+)$: $(0, 0, 0) \in \set F$.
+
+Inverse Element $(+)$:
+\begin{align*}
+	m + m^{-1} &= 0 \\
+	m^{-1} &= (-x_1, -y_1, -x_1) \\
+	&\in \set F \qedl
+\end{align*}
+
+\conclusion $\set F$ is a subspace of $\vecsp R3$. \qed
+
+\clearpage
+
+\subquestion{b}
+Calculate $\set F \cap \set G$ without resorting to any basis vectors.
+
+\insight
+The intersection between the sets is the subset of $\vecsp R3$ satisfying the constraints of both sets.
+
+\solution
+\begin{align*}
+	\set F \cap \set G &= \{(a-b, a+b, a-3b) \in \vecsp R3 \mid (a-b) + (a+b) - (a-3b) = 0 \} \\
+	&= \{(a-b, a+b, a-3b) \in \vecsp R3 \mid a + 3b = 0 \} \\
+	&= \{(-4b, -2b, -6b) \in \vecsp R3 \mid b \in \mathbb R \} \qed
+\end{align*}
+
+\subquestion{c}
+Find one basis for $\set F$ and one for $\set G$, calculate $\set F \cap \set G$ using the basis vectors.
+
+\insight
+For $\set F$, the basis is found by solving for $\mat A \vec x = \vec 0$ for all $\vec x \in \set F$, i.e. finding the kernel space of $\mat A$ which represents the constraints of the set.
+
+For $\set G$, the basis can be found directly by breaking up the two component vectors making up each element of the set.
+
+\solution
+Set $\set F$ is equivalent to $ker(\mat A)$, where
+\[
+\mat A = \begin{bmatrix}
+	1 & 1 & -1 \\
+	0 & 0 & 0 \\
+	0 & 0 & 0
+\end{bmatrix}
+\]
+
+Sovling for $ker(\mat A)$, we find that the basis vectors spanning it are:
+
+\[
+\mat B_{\set F} = \begin{bmatrix}
+	1 & -1 \\
+	-1 & 0 \\
+	0 & -1
+\end{bmatrix}
+\]
+
+From the definition of set $\set G$, we observe that each element can be written as:
+\begin{align*}
+	(a, a, a) + (-b, b, -3b) &= a(1, 1, 1) + b(-1, 1, -3)
+\end{align*}
+
+Therefore its basis is:
+\[
+\mat B_{\set G} = \begin{bmatrix}
+	1 & -1 \\
+	1 & 1 \\
+	1 & -3
+\end{bmatrix}
+\]
+
+Finally, solving for $\set F \cap \set G$:
+\begin{align*}
+	\mat B_{\set F} \rowvec{a \\ b} &= \mat B_{\set G} \rowvec{c \\ d} \tag{$a, b, c, d \in \mathbb R$} \\
+	\begin{bmatrix}
+		1 & -1 & 1 & -1 \\
+		-1  & 0 & 1 & 1 \\
+		0 & -1 & 1 & -3
+	\end{bmatrix}
+	\rowvec{a \\ b \\ c \\ d} &= \vec 0 \\
+	\rowvec{a \\ b \\ c \\ d} &= \rowvec{2 \\ 6 \\ 3 \\ -1}\lambda \tag{$\lambda \in \mathbb R$}
+\end{align*}
+
+Hence:
+\begin{align*}
+	\set F \cap \set G &= \left \{
+	\mat B_{\set F} \rowvec{a \\ b} \lambda \mid \lambda \in \mathbb R \right \} \\
+	&= \left \{ \rowvec{4 \\ 2 \\ 6} \lambda \mid \lambda \in \mathbb R \right \} \\
+	&= \left \{ \rowvec{-4 \\ -2 \\ -6} \lambda \mid \lambda \in \mathbb R \right \} \qed
+\end{align*}
+
+\question{2.16}
+Are the following mappings linear?
+
+\insight
+Criterion for linearity of $\Phi: \set X, \set Y \mapsto \Phi(x, y)$:
+\[
+\forall x \in \set X, y \in \set Y: \forall \lambda, \phi \in \mathbb R: \Phi(\lambda x, \phi y) = \lambda \Phi(x) + \phi \Phi(y)
+\]
+
+\subquestion{a}
+\begin{align*}
+	\Phi: L^1([a, b]) &\to \mathbb R \\
+	f &\mapsto \int_a^b f(x)\ \diff x
+\end{align*}
+Where $L^1$ denotes the set of integratable functions on $[a, b]$.
+
+\solution
+\begin{align*}
+	\forall f, g \in L^1: \forall \lambda, \phi \in \mathbb R: \Phi(\lambda f+\phi g) &= \int_a^b \lambda f(x) + \phi g(x)\ \diff x \\
+	&= \lambda \int_a^b f(x) \diff x + \phi \int_a^b g(x) \diff x \\
+	&= \lambda \Phi(f) + \phi \Phi(g) \qed
+\end{align*}
+
+\subquestion{b}
+\begin{align*}
+	\Phi: \set C^1 &\to \set C^0 \\
+	f &\mapsto f'
+\end{align*}
+Where $C^1$ denotes the set of 1 time continuously differentiable functions.
+
+\solution
+\begin{align*}
+	\forall f, g \in \set C^1: \forall \lambda, \phi \in \mathbb R: \set C(\lambda f+\phi g) &= \der x ( \lambda f(x) + \phi g(x)\ )\\
+	&= \lambda \der x f(x) + \phi \der x g(x) \\
+	&= \lambda \Phi(f) + \phi \Phi(g) \qed
+\end{align*}
+
+\subquestion{c}
+\begin{align*}
+	\Phi: \mathbb R &\to \mathbb R \\
+	x &\mapsto cos(x)
+\end{align*}
+
+\solution
+\begin{align*}
+	\exists x, y \in \mathbb R: cos(x) + cos(y) \neq cos(x + y) \nqed
+\end{align*}
+
+\subquestion{d}
+\begin{align*}
+	\Phi: \vecsp R3 &\to \vecsp R2 \\
+	\vec x &\mapsto \begin{bmatrix}
+		1 & 2 & 3 \\
+		1 & 4 & 3
+	\end{bmatrix} \vec x
+\end{align*}
+
+\solution Matrix-vector multiplication is linear by definition.
+
+\subquestion{e}
+
+\solution Matrix-vector multiplication is linear by definition.
+
+\question{2.17}
+Consider the given linear mapping
+
+\subquestion{a}
+Find the transformation matrix $\mat A_\Phi$.
+
+\solution
+From inspecting the given mapping,
+
+\[
+\mat A_\phi = 
+\begin{bmatrix}
+	3 & 2 & 1 \\
+	1 & 1 & 1 \\
+	1 & -3 & 0 \\
+	2 & 3 & 1
+\end{bmatrix}
+\]
+
+\subquestion{b}
+Determine $\text{rk}(\mat A_\Phi)$.
+
+\solution
+From the python code: $\text{rk}(\mat A_\Phi) = 3$.
+
+\subquestion{c}
+Compute $\text{ker}(\Phi)$ and $\text{Im}(\Phi)$.
+
+\solution
+From the python code:
+\begin{align*}
+	\text{ker}(\Phi) &= \{0\} \\
+	\text{dim(ker(}\Phi\text{))} &= 0
+\end{align*}
+Hence, the image is the full column space:
+\begin{align*}
+	\text{Im}(\Phi) &= \left\{ \mat A_\Phi \vec x \mid \vec x \in \vecsp R3 \right\} \\
+	\text{dim(Im(}\Phi\text{))} &= \text{rk}(\mat A_\Phi) \\
+	&= 3
+\end{align*}
+
+\question{2.18}
+Let $E$ be a vector space. Let $f$ and $g$ be two automorphisms on $E$ such that $f \circ g = \id_E$.
+
+\insight
+Automorphism: bijective (invertible) linear map from $E \to E$.
+
+\subquestion{$\ker(f) = \ker(g \circ f)$}
+\solution
+\begin{align*}
+	\forall \vec v \in \ker(f): f(\vec v) &= \vec 0_E \\
+	(g \circ f)(\vec v) &= \vec 0_E \\
+	\therefore \vec v &\in \ker(g \circ f) \\
+	\ker(f) &\subseteq \ker(g \circ f) \qedl
+\end{align*}
+\begin{align*}
+	\forall \vec w \in \ker(g \circ f): (g \circ f)(\vec w) &= \vec 0_E \\
+	(f \circ g \circ f)(\vec w) &= \vec 0_E \\
+	f(\vec w) &= \vec 0_E \tag{$f \circ g = \id_E$}\\
+	\therefore \vec w &\in \ker(f) \\
+	\ker(g \circ f) &\subseteq \ker(f) \qedl
+\end{align*}
+Therefore, $\ker(f) = \ker(g \circ f)$. \qed
+
+\subquestion{$\im(f) = \im(g \circ f)$}
+\begin{align*}
+	\im(g) = \im(f) = E \tag{surjectivity} \\
+	\therefore \im(g \circ f) = g(E) = E \qed
+\end{align*}
+
+\subquestion{$\ker(f) \cap \im(g) = \left\{ \vec 0_E \right\}$}
+\begin{align*}
+	\ker(f) &= \setlr{\vec 0_E} \tag{injectivity} \\
+	\im(g) &= E \tag{surjectivity} \\
+	\therefore \ker(f) \cap \im(g) &= \setlr{\vec 0_E} \qed
+\end{align*}
+
+\question{2.19}
+For the given endomorphism $\Phi: \vecsp R3 \to \vecsp R3$:
+
+\subquestion{a}
+Determine $\ker(\Phi)$ and $\im(\Phi)$.
+
+\solution
+From the python code:
+\begin{align*}
+	\ker(\Phi) &= \setlr{\vec 0} \\
+	\im(\Phi) &= \vecsp R3 \qed
+\end{align*}
+
+\subquestion{b}
+Determine the transformation matrix $\tilde{\mat A}_\Phi$ wrt the basis $\mat B$.
+
+\insight
+The solution is to find the composed transform:
+\begin{align*}
+	B \leftarrow \vecsp R3 \xleftarrow{\Phi} \vecsp R3 \leftarrow B
+\end{align*}
+
+\solution
+\begin{align*}
+	\inv B \mat A_\Phi \mat B =
+	\begin{bmatrix}
+		6 & 9 & 1 \\
+		-3 & -5 & 0 \\
+		-1 & -1 & 0
+	\end{bmatrix} \qed
+\end{align*}
+
+\question{2.20}
+For vectors $\vec b_1, \vec b_2, \vec b_1', \vec b_2'$ and ordered bases $B = (\vec b_1, \vec b_2)$ and $B' = (\vec b_1', \vec b_2')$ of $\vecsp R2$.
+
+\subquestion{a}
+Show that $B$ and $B'$ are two bases of $\vecsp R2$ and draw those basis vectors.
+
+\insight
+Since there's only two dimensions, we can easily show that the two basis vectors are linearly independent.
+
+\solution
+\begin{align*}
+	\forall x, y \in \mathbb R: x = y = 0 \iff x \vec b_1 + y \vec b_2 \\
+	\therefore \text{span}\left[\vec b_1, \vec b_2 \right] = \vecsp R2 \qed
+\end{align*}
+The same argument applies to the basis $B'$.
+
+\subquestion{b}
+Comptue the matrix $\mat P_1$ that performs a basis change from $B'$ to $B$.
+
+\begin{align*}
+	\mat P_1 &= \inv B \mat B' \\
+	&= \begin{bmatrix}
+		4 & 0 \\
+		6 & -1
+	\end{bmatrix} \qed
+\end{align*}
+
+\subquestion{c.i}
+Show that $C$ is a basis of $\vecsp R3$.
+
+\solution
+Let $\mat C = \begin{bmatrix}
+	\vec c_1 & \vec c_2 & \vec c_3
+\end{bmatrix}$.
+\begin{align*}
+	\text{det}(\mat C) &\neq 0 \\
+	\rk(\mat C) &= 3 \\
+	\text{span}(\mat C) &= \vecsp R3 \qed
+\end{align*}
+
+\subquestion{c.ii}
+Determine the matrix of basis change from $C$ to $C'$.
+
+\solution
+\[\mat P_2 = \mat C \qed\]
+
+\subquestion{d}
+Find the transformation matrix $\mat A_\Phi$.
+
+\insight
+The transformation matrix describes how each component of a vector $\vec b$ w.r.t basis $B$ is mapped to a new vector as a sum of and w.r.t. to basis $C$.
+Thus, first figure out what $\Phi$ does to $\vec b_1, \vec b_2$ individually. Hint: homomorphism $\equiv$ linear mapping.
+
+\solution
+
+Find $\Phi \parenlr{\vec b_1}$:
+\begin{align*}
+	\Phi \parenlr{\vec b_1} &= \frac 12 \sqparenlr{ \Phi \parenlr{\vec b_1 + \vec b_2} + \Phi \parenlr{\vec b_1 - \vec b_2} } \tag{linearity} \\
+	&= \vec c_1 + \vec c_3
+\end{align*}
+
+Similarly, find $\Phi \parenlr{\vec b_2}$:
+\begin{align*}
+	\Phi \parenlr{\vec b_2} &= \frac 12 \sqparenlr{ \Phi \parenlr{\vec b_1 + \vec b_2} - \Phi \parenlr{\vec b_1 - \vec b_2} } \tag{linearity} \\
+	&= -\vec c_1 + \vec c_2 - \vec c_3
+\end{align*}
+
+Arranging into matrix:
+\[
+\mat A_\Phi = \begin{bmatrix}
+	1 & -1 \\
+	0 & 1 \\
+	2 & -1
+\end{bmatrix} \qed
+\]
+
+\subquestion{e}
+Determine $\mat A'$, the transformation matrix of $\Phi$ wrt the bases $\mat B'$ and $\mat C'$.
+
+\insight
+We're essentially looking for a matrix representing the composite mapping: $\mat B' \to \mat B \xrightarrow{\Phi} \mat C \to \mat C'$.
+
+\solution
+\begin{align*}
+	\mat A' &= \mat P_2 \mat A_\Phi \mat P_1 \\
+	&= \begin{bmatrix}
+		0 & 2 \\
+		-10 & 3 \\
+		12 & -4
+	\end{bmatrix} \qed
+\end{align*}
+
+\subquestion{f}
+Let us consider the vector $\vec x \in \vecsp R2$ whose coordinates in $B'$ are $\rowvec{2\\3}$. In other words, $\vec x = 2 \vec b_1' + 3 \vec b_2'$.
+
+\paragraph{(i)} Calculate the coordinates of  $\vec x$ in $B$.
+\begin{align*}
+	\vec x_B &= \mat P_1 \vec x \\
+	&= \rowvec{ 8 \\ 9 } \qed
+\end{align*}
+
+\paragraph{(ii)} Based on that, compute the coordinates of $\Phi(\vec x)$ expressed in $C$.
+\begin{align*}
+	{\Phi(x)}_C &= \mat A_\Phi \vec x_B \\
+	&= \rowvec{ -1 \\ 9 \\ 7 } \qed
+\end{align*}
+
+\paragraph{(iii)} Then, write $\Phi(x)$ in terms of $\vec c_1', \vec c_2', \vec c_3'$.
+\begin{align*}
+	{\Phi(x)}_{C'} &= \mat P2 {\Phi(x)}_C \\
+	&= \rowvec { 6 \\ -11 \\ 12 } \\
+	&= 6 \vec c_1' - 11 \vec c_2' + 12 \vec c_3' \qed
+\end{align*}
+
+\paragraph{(iv)} Use the representation of $\vec x$ in $B'$ and the matrix $\mat A'$ to find this result directly.
+\begin{align*}
+	{\Phi(x)}_{C'} &= \mat A' \vec x \\
+	&= \rowvec { 6 \\ -11 \\ 12 } \qed
+\end{align*}
 
 
 

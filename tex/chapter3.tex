@@ -1,3 +1,114 @@
 \chapter{Chapter 3: Analytic Geometry}
 
-\question{2.1}
+\question{3.1}
+Show that $\innerprod \vecx \vecy \defeq x_1y_1 - (x_1y_2 + x_2y_1) + 2(x_2y_2)$ is an inner product.
+
+\insight
+We need to test the 3 properties of an inner product:
+\begin{itemize}
+	\item Symmetric
+	\item Bilinear
+	\item Positive Definite
+\end{itemize}
+
+\solution
+
+\textbf{Symmetric}
+\begin{align*}
+	\innerprod \vecx \vecy &= x_1y_1 - (x_1y_2 + x_2y_1) + 2(x_2y_2) \\
+	&= y_1x_1 - (y_1x_2 + y_2x_1) + 2(y_2x_2) \\
+	&= \innerprod \vecy \vecx \qedl
+\end{align*}
+
+\textbf{Bilinear}
+\begin{align*}
+	\forall a, b \in \mathbb R, \vec z \in \vecsp R2: &\innerprod {a \vecx + b \vecz} \vecy = a \innerprod \vecx \vecy + b \innerprod \vecz \vecy \\
+	& \innerprod \vecx {a \vecy + b \vecz } = a \innerprod \vecx \vecy + b \innerprod \vecx \vecz \qedl
+\end{align*}
+
+\textbf{Positive Definite}
+\begin{align*}
+	\innerprod \veczero \veczero &= 0 \\
+	\forall \vecx \in \vecsp R2 \minusset{ \veczero }: \innerprod \vecx \vecx &= x_1^2 - 2x_1x_2 + 2x_2^2 \\
+	&= (x_1 - x_2)^2 + x_2^2 \\
+	&> 0 \qedl
+\end{align*}
+
+Therefore, it is indeed an inner product in $\vecsp R2$. \qed
+
+\question{3.2}
+Is $\innerprod \vecx \vecy \defeq \vecx^\top \rowvec { 2 & 0 \\ 1 & 2 } \vecy$ an inner product of $\vecsp R2$?
+
+\insight
+We need to test the 3 properties of an inner product:
+\begin{itemize}
+	\item Symmetric
+	\item Bilinear
+	\item Positive Definite
+\end{itemize}
+
+\solution
+
+\textbf{Symmetric}
+\begin{align*}
+	\innerprod \vecx \vecy &= \vecx^\top \mata \vecy \\
+	&\neq \vecy^\top \mata \vecx \tag{$\mata$ is not symmetric}
+\end{align*}
+
+Hence, it is not an inner product. \qed
+
+\question{3.3-3.6}
+The solutions are computed using the correponding jupyter notebook.
+
+\question{3.7}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
