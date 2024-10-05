@@ -8,29 +8,34 @@ def dot_product(v1: np.ndarray, v2: np.ndarray) -> float:
     return (v1 * v2).sum()
 
 
-INNER_PRODUCT: Callable[[np.ndarray, np.ndarray], float] = dot_product
+_INNER_PRODUCT: Callable[[np.ndarray, np.ndarray], float] = dot_product
 """ The inner product function used by the functions in this module. """
 
 
 def set_inner_product(func: Callable[[np.ndarray, np.ndarray], float]):
     """ Sets the inner product function used by the functions in this module. """
-    global INNER_PRODUCT
-    INNER_PRODUCT = func
+    global _INNER_PRODUCT
+    _INNER_PRODUCT = func
 
 
 def get_inner_product() -> Callable[[np.ndarray, np.ndarray], float]:
     """ Returns the inner product function used by the functions in this module. """
-    return INNER_PRODUCT
+    global _INNER_PRODUCT
+    return _INNER_PRODUCT
+
+def inner_product(v1: np.ndarray, v2: np.ndarray) -> float:
+    """ Returns the inner product of two vectors. """
+    return get_inner_product()(v1, v2)
 
 
 def norm(v: np.ndarray) -> float:
     """ Returns the norm of a vector. """
-    return INNER_PRODUCT(v, v) ** 0.5
+    return inner_product(v, v) ** 0.5
 
 
 def angle(v1: np.ndarray, v2: np.ndarray) -> float:
     """ Returns the angle between two vectors. """
-    return np.arccos(INNER_PRODUCT(v1, v2) / (norm(v1) * norm(v2)))
+    return np.arccos(inner_product(v1, v2) / (norm(v1) * norm(v2)))
 
 
 def distance(v1: np.ndarray, v2: np.ndarray) -> float:
@@ -54,11 +59,21 @@ def project(v: np.ndarray, B: np.ndarray, orthogonal: bool = False) -> np.ndarra
     if orthogonal:
         # simply summing the projections onto the basis vectors
         # noinspection PyTypeChecker
-        return sum([INNER_PRODUCT(v, b) * b / INNER_PRODUCT(b, b) for b in B.T])
+        return sum([inner_product(v, b) * b / inner_product(b, b) for b in B.T])
     else:
         # general method using matrix inversion
-        assert rk(B) == min(B.shape), 'B is not full rank. B.T @ B is not invertible.'
-        return B @ (invert(B.T @ B) @ B.T @ v)
+        # build the interaction matrix A
+        A = np.empty((B.shape[1], B.shape[1]), dtype=np.float64)
+        for i, b in enumerate(B.T):
+            for j in range(i+1):
+                A[i, j] = A[j, i] = inner_product(b, B[:, j])
+        assert rk(A) == A.shape[1], 'Unable to invert interaction matrix A.'
+        # build the projection vector p
+        p = np.empty(B.shape[1], dtype=np.float64)
+        for i, b in enumerate(B.T):
+            p[i] = inner_product(v, b)
+        # solve the system A @ x = p
+        return B @ invert(A) @ p
 
 
 def find_orthonormal_basis_gram_schmidt(B: np.ndarray) -> np.ndarray:
