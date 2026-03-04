@@ -50,7 +50,7 @@ def find_pivot_columns(ref: np.ndarray, return_indices=False) -> np.ndarray | Tu
     pivot_rows = []
     i, j = 0, 0
     while i < m and j < n:
-        if ref[i, j] == 1:
+        if np.isclose(ref[i, j], 1):
             pivot_columns.append(j)
             pivot_rows.append(i)
             i += 1
@@ -70,7 +70,7 @@ def invert(A: np.ndarray) -> np.ndarray:
     assert A.shape[0] == A.shape[1], 'Matrix is not square.'
     augmented = np.hstack((A, np.eye(A.shape[0])))
     ref, _, _ = find_ref(augmented, reduced=True)
-    if not np.all(ref[:, :A.shape[0]] == np.eye(A.shape[0])):
+    if not np.allclose(ref[:, :A.shape[0]], np.eye(A.shape[0])):
         raise ValueError('Matrix is not invertible.')
     return ref[:, A.shape[0]:]
 
@@ -93,13 +93,14 @@ def kernel_space(A: np.ndarray, is_rref=False) -> np.ndarray:
     basis = []
     for j in non_pivot_columns:
         b = np.zeros(n, dtype=np.float64)
-        # copy over at rows corresponding to pivot columns
-        b[pivot_columns] = rref[pivot_rows, j]
+        if len(pivot_rows) > 0:
+            # copy over at rows corresponding to pivot columns
+            b[pivot_columns] = rref[pivot_rows, j]
         # set current column to -1
         b[j] = -1
         basis.append(b)
     if len(basis) == 0:
-        return np.zeros((m, 1), dtype=np.float64)
+        return np.zeros((n, 1), dtype=np.float64)
     return np.array(basis).T
 
 

@@ -151,7 +151,8 @@ class Gaussian(Distribution):
 
     def logpdf(self, x: np.ndarray) -> np.ndarray:
         d = x - self.mean
-        return -0.5 * np.log(2*np.pi) - 0.5 * np.log(det(self.cov)) - 0.5 * np.sum(d @ invert(self.cov) * d, axis=1)
+        D = self.cov.shape[0]
+        return -0.5 * D * np.log(2*np.pi) - 0.5 * np.log(det(self.cov)) - 0.5 * np.sum(d @ invert(self.cov) * d, axis=1)
 
     def __repr__(self) -> str:
         return f"Gaussian(mean={self.mean}, cov={self.cov})"

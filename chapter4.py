@@ -121,11 +121,19 @@ def singular_value_decomposition(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray,
     if m >= n:
         D, V = eigen_decomposition(A.T @ A, orthonormalize=True)
         D = np.sqrt(D)
-        _, U = eigen_decomposition(A @ A.T, orthonormalize=True)
+        # Derive U from V to ensure sign consistency: u_i = A @ v_i / sigma_i
+        U = A @ V
+        for i in range(n):
+            if D[i, i] > 0:
+                U[:, i] /= D[i, i]
     else:
         D, U = eigen_decomposition(A @ A.T, orthonormalize=True)
         D = np.sqrt(D)
-        _, V = eigen_decomposition(A.T @ A, orthonormalize=True)
+        # Derive V from U to ensure sign consistency: v_i = A^T @ u_i / sigma_i
+        V = A.T @ U
+        for i in range(m):
+            if D[i, i] > 0:
+                V[:, i] /= D[i, i]
     return U, D, V
 
 
